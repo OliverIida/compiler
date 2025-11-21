@@ -8,7 +8,7 @@ INSTRUCTIONS TO DOWNLOAD BELOW
 g++ compiler.cpp -o compiler
 
 ## START THE TOKENIZER
-./compiler test.text
+./compiler test.txt
 
 # DOWNLOADING g++
 
