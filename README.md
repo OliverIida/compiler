@@ -4,11 +4,13 @@
 g++ --version <br>
 INSTRUCTIONS TO DOWNLOAD BELOW
 
-## CREATE THE RUNNABLE PROGRAM FROM YOUR SOURCE CODE
-g++ compiler.cpp -o compiler
+## COMPILE THE TOKENIZER
+g++ tokenizer.cpp -o tokenizer
 
 ## START THE TOKENIZER
-./compiler test.txt
+./tokenizer test.txt
+
+## TO BE CONTINUED
 
 # DOWNLOADING g++
 
