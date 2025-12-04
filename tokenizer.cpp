@@ -1,9 +1,10 @@
 #include <unordered_map> // Hashmap import
 #include "include.h" // connects this file to include.h
+#include <fstream> // for writing to file
 
 struct Compiler
 {
-    SourceFile source; // this var the file in memory until Compiler works
+    SourceFile source; // this var stores the file in memory until Compiler works
 
     char* filePos = nullptr; // pointer to where we are now
     char* fileEnd = nullptr; // pointer showing where the file ends
@@ -134,27 +135,29 @@ int main(int argc, char* argv[]) // main entry point
     if (!compiler.Init(argv[1])) // making new compiler, reading file
         return 1;
 
-    while (compiler.token.type != TokenType::End)
+    std::ofstream out("tokenized.txt"); // setting up the file to write to
+    if (!out.is_open())
     {
-        switch (compiler.token.type) // printing what we found
+        std::cerr << "Failed to open tokenized.txt for writing\n"; // if file is not open, print error
+        return 1;
+    }
+    
+    do
+    {
+        out << compiler.token.line << ": " << GetTokenTypeName(compiler.token.type); // writing line number and token type
+
+        if (compiler.token.type == TokenType::Identifier ||
+            compiler.token.type == TokenType::Number)
         {
-        case TokenType::Number:
-        case TokenType::Identifier:
-            std::printf("%d: %s %s\n",
-                        compiler.token.line,
-                        GetTokenTypeName(compiler.token.type),
-                        compiler.token.value.c_str()); // printing line number, token type and value of token
-            break;
-        default:
-            std::printf("%d: %s\n",
-                        compiler.token.line,
-                        GetTokenTypeName(compiler.token.type)); // printing line number and token type
-            break;
+            out << " " << compiler.token.value; // writing token value if it exists
         }
 
-        if (!compiler.NextToken()) // asking for next token
+        out << "\n"; // writing new line
+
+        if (!compiler.NextToken()) // if next token is not found, print error
             return 1;
-    }
+
+    } while (compiler.token.type != TokenType::End); // while token type is not End, keep writing
 
     return 0; // program ran successfully
 }

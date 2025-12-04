@@ -8,3 +8,4 @@ _testVar123 = _testVar123 * var2
 var2 = _testVar123 * var2 + (_testVar123 / var2)
 print(_testVar123)
 print(var2)
+
